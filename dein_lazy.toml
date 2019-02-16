@@ -1,48 +1,46 @@
 
     #補完機能
-
-    #python補完機能
+    # 多言語補完
     [[plugins]]
-    repo='zchee/deoplete-jedi'
-    #insertモードで読み込み
-    on_i=1
-    #指定したファイルタイプの時読み込む
-    on_ft=['python']
-    depends=['deoplete.nvim']
-    hook_post_source='''
-    g:deoplete#source#jedi#server_timeout=40
-    '''
-
-    #c++補完機能
-    [[plugins]]
-    repo='tweekmonster/deoplete-clang2'
-    hook_post_source='''
-    set runtimepath+=/tmp/deoplete.nvim/
-    set runtimepath+=~/tmp/deoplete-clang/
-    let g:deoplete#enable_at_startup=1
-    let g:deoplete#sources#clang#executable='/usr/bin/clang'
-    '''
-    on_ft=['c','cpp','cmake']
-    on_i=1
+    repo='Shougo/neco-syntax'
+    on_event='InsertEnter'
     depends=['deoplete.nvim']
 
-    #java補完機能
+    # #python補完機能
+    # [[plugins]]
+    # repo='zchee/deoplete-jedi'
+    # #insertモードで読み込み
+    # on_event='InsertEnter'
+    # #指定したファイルタイプの時読み込む
+    # on_ft=['python']
+    # depends=['deoplete.nvim']
+    # hook_post_source='''
+    # g:deoplete#source#jedi#server_timeout=40
+    # '''
+
+    #C系補完機能
+    # [[plugins]]
+    # repo='tweekmonster/deoplete-clang2'
+    # hook_post_source='''
+    # set runtimepath+=/tmp/deoplete.nvim/
+    # set runtimepath+=~/tmp/deoplete-clang/
+    # let g:deoplete#enable_at_startup=1
+    # let g:deoplete#sources#clang#executable='/usr/bin/clang'
+    # '''
+    # on_ft=['c','cpp','cmake','objc','objcpp']
+    # on_event='InsertEnter'
+    # depends=['deoplete.nvim']
+
     [[plugins]]
-    repo='artur-shaik/vim-javacomplete2'
-    hook_post_source='''
-    nnoremap <F4> <Plug>(JavaComplete-Imports-AddSmart)
-    inoremap <F4> <Plug>(JavaComplete-Imports-AddSmart)
-    nnoremap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
-    inoremap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
-    '''
-    on_ft=['java']
-    depends=['deoplete.nvim']
+    repo='Shougo/neoinclude.vim'
+    on_event='InsertEnter'
+    on_ft=['c', 'cpp', 'objc', 'objcpp']
 
     #javascript補完機能
-    repo='carlitux/deoplete-ternjs'
-    on_ft=['javascript']
-    on_i=1
-    depends=['deoplete.nvim']
+    # repo='carlitux/deoplete-ternjs'
+    # on_ft=['javascript']
+    # on_event='InsertEnter'
+    # depends=['deoplete.nvim']
 
     #html補完
     [[plugins]]
@@ -63,7 +61,7 @@
         \ }
        '''
     on_ft=['html']
-    on_i=1
+    on_event='InsertEnter'
 
     #html
     [[plugins]]
@@ -73,7 +71,12 @@
     [[plugins]]
     repo='othree/html5.vim'
     on_ft=['html']
-    on_i=1
+    on_event='InsertEnter'
+
+    #Nim Filetype設定
+    [[plugins]]
+    repo='zah/nim.vim'
+    on_ft=['nim']
 
     #neosnippet
     [[plugins]]
@@ -86,22 +89,34 @@
         set conceallevel=2 concealcursor=niv
     endif
     '''
-    on_i=1
+    on_event='InsertEnter'
     on_ft=['snippet']
     depends=['neosnippet-snippets']
 
     #neco-vim
     [[plugins]]
     repo='Shougo/neco-vim'
-    on_i=1
+    on_event='InsertEnter'
     on_ft=['vim']
     depends=['deoplete.nvim']
-
 
     #自動括弧
     [[plugins]]
     repo='cohama/lexima.vim'
-    on_i=1
+    hook_source="""
+    call lexima#add_rule({'char': '<C-]>', 'at': '\%#)', 'leave': 1})
+    call lexima#add_rule({'char': '<C-]>', 'at': '\%#"', 'leave': 1})
+    call lexima#add_rule({'char': '<C-]>', 'at': '\%#]', 'leave': 1})
+    call lexima#add_rule({'char': '<C-]>', 'at': '\%#}', 'leave': 1})
+    call lexima#add_rule({'char': '<C-]>', 'at': '\%#''', 'leave': 1})
+    call lexima#add_rule({'char': '<C-]>', 'at': '\%#>>>', 'leave': 3})
+    call lexima#add_rule({'char': '<', 'at': '<<\%#', 'input_after': '>>>', 'filetype': 'cuda'})
+    call lexima#add_rule({'char': '>', 'at': '\%#>>>', 'leave': 3, 'filetype': 'cuda'})
+    call lexima#add_rule({'char': '<BS>', 'at': '<<<\%#>>>', 'input': '<BS><BS><BS>', 'delete': 3, 'filetype': 'cuda'})
+    call lexima#add_rule({'char': '%', 'at': '{\%#', 'input_after': '%'})
+    """
+
+    on_event='InsertEnter'
 
     #html-scriptインデント
     [[plugins]]
@@ -112,48 +127,70 @@
     repo='kana/vim-smartchr'
     hook_add='''
     inoremap <expr> , smartchr#loop(', ',',')
-    autocmd Filetype python,pyrex,c,cpp,lua inoremap <expr> < smartchr#loop(' < ', ' <= ', '<', ' << ')
-    autocmd Filetype python,pyrex,c,cpp,lua inoremap <expr> > smartchr#loop(' > ', ' >= ', '>', ' >> ')
+    au Filetype python,pyrex,lua,c,cpp,objc,objcpp,java,nim,typescript,javascript
+                \ inoremap <buffer><expr> < search('\(#include\\|#import\)\s*\%#','bcn') ?
+                \ '<><LEFT>': search('cout.*\%#', 'bcn')?
+                \ smartchr#loop(' < ', ' << '): search('\.\%#', 'bcn')?
+                \ '<': smartchr#one_of(' < ', '<<', '<')
+    au Filetype python,pyrex,c,cpp,lua,nim,typescript,javascript
+                \ inoremap <buffer><expr> > search('\(#include\\|#import\)\%#','bcn')?
+                \ '>': search('\s=\s\%#', 'bcn')?
+                \ '<BS>> ': smartchr#loop(' > ', ' >> ', '>')
+    au FileType javascript,typescript
+                \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\)\s\%#','bcn')?
+                \ '<BS>= ': search('!\%#', 'bcn')?
+                \ '<BS> != ': search('!=\+ \%#', 'bcn')?
+                \ '<BS>= ': smartchr#one_of(' = ', ' == ', ' === ')
+    au Filetype python,pyrex,lua,c,cpp,cuda,objc,objcpp,java,nim
+                \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\)\s\%#','bcn')?
+                \ '<BS>= ': search('.*!\%#', 'bcn')?
+                \ '<BS> != ': smartchr#one_of(' = ', ' == ', '=')
+    au FileType python,pyrex,lua
+                \ inoremap <buffer><expr> + smartchr#one_of(' + ', '+')
+    au FileType python,pyrex,lua
+                \ inoremap <buffer><expr> - smartchr#one_of(' - ', '-')
+    au FileType python,pyrex,lua,javascript,nim
+                \ inoremap <buffer><expr> / smartchr#one_of(' / ', ' // ', '/')
+    au FileType python,pyrex,nim
+                \ inoremap <buffer><expr> * smartchr#one_of(' * ', ' ** ', '*')
+    au FileType python,pyrex,nim
+                \ inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
+    au FileType lua
+                \ inoremap <buffer><expr> ^ smartchr#loop(' ^ ', '^')
+    au FileType javascript,c,cpp,cuda,objc,objcpp,java,nim,typescript,javascript
+                \ inoremap <buffer><expr> + smartchr#one_of(' + ', '++', '+')
+    au FileType javascript,c,cpp,cuda,objc,objcpp,java,nim,typescript,javascript
+                \ inoremap <buffer><expr> - smartchr#one_of(' - ', '--', '-')
+    au FileType c,cuda,objc,java
+                \ inoremap <buffer><expr> & smartchr#one_of('&', ' && ', ' & ', '&=')
+    au Filetype c,cpp,cuda,python,pyrex,java
+                \ inoremap <buffer><expr> . smartchr#one_of('.','->','..')
+    au FileType php
+                \ inoremap <buffer><expr> ? search('<\%#', 'bcn') ?
+                \ '??><LEFT><LEFT>': '?'
 
-    autocmd Filetype python,pyrex,lua inoremap <expr> = smartchr#one_of(' = ',' == ','=')
-    autocmd FileType python,pyrex,lua inoremap <expr> + smartchr#one_of(' + ', '+')
-    autocmd FileType python,pyrex,lua inoremap <expr> - smartchr#one_of(' - ', '-')
-    autocmd FileType python,pyrex,lua inoremap <expr> / smartchr#one_of(' / ', ' // ', '/')
-    autocmd FileType python,pyrex inoremap <expr> * smartchr#one_of(' * ', ' ** ', '*')
-    autocmd FileType python,pyrex inoremap <expr> & smartchr#one_of(' & ', ' && ', '&')
-
-    autocmd FileType lua inoremap <expr> ^ smartchr#loop(' ^ ', '^')
-
-    autocmd FileType c,cpp inoremap <expr> + smartchr#one_of(' + ', '++', ' += ', '+')
-    autocmd FileType c,cpp inoremap <expr> - smartchr#one_of(' - ', '--', ' -= ', '-')
-    autocmd FileType c,cpp inoremap <expr> & smartchr#one_of('&', ' && ', ' & ', '&=')
-    " autocmd FileType c,cpp inoremap <expr> | smartchr#one_of(' | ', ' || ', ' |= ', '|')
-    autocmd FileType c,cpp inoremap <expr> % smartchr#one_of(' % ', '%', '%=')
-
-    autocmd Filetype c,cpp inoremap <expr> . smartchr#one_of('.','->')
+    inoremap <buffer><expr> <BS> search('<\%#>','bcn')? '<BS><DEL>': '<BS>'
+    inoremap <C-l> <><LEFT>
     '''
-    on_i=1
-
-    [[plugins]]
-    repo='Galooshi/vim-import-js'
-    on_ft=['javascript']
-
-    # verilog補完
-    [[plugins]]
-    repo='tsubota-kouga/deoplete-verilog'
-    on_ft=['verilog']
-    on_i=1
-    depends=['deoplete.nvim']
-
-    # lua補完
-    [[plugins]]
-    repo='tsubota-kouga/deoplete-lua'
-    on_ft=['lua']
-    on_i=1
-    depends=['deoplete.nvim']
+    on_event='InsertEnter'
 
     [[plugins]]
     repo='zchee/deoplete-zsh'
     on_ft=['zsh']
-    on_i=1
+    on_event='InsertEnter'
     depends=['deoplete.nvim']
+
+    [[plugins]]
+    repo='mhartington/nvim-typescript'
+    on_event='InsertEnter'
+    on_ft=['typescript', 'tsx', 'typescript.tsx']
+    depends=['deoplete.nvim']
+    build='./install.sh'
+
+    [[plugins]]
+    repo='fishbullet/deoplete-ruby'
+    on_event='InsertEnter'
+    on_ft=['ruby']
+    depends=['deoplete.nvim']
+
+

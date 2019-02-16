@@ -1,5 +1,4 @@
 
-    set nocompatible
     "reset augroup
     augroup MyAutoCmd
         autocmd!
@@ -9,7 +8,7 @@
     set encoding=utf-8
     scriptencoding utf-8
     "保存時の文字コード
-    " set fileencoding=utf-8
+    set fileencoding=utf-8
     "読み込み時の文字コードを自動判別 左:優先
     set fileencodings=ucs-boms,utf-8,euc-jp,cp932
     "改行コード自動判別
@@ -69,27 +68,34 @@
     set showcmd
     "テキストの折りたたみを有効化
     " set foldmethod=indent
+    set nomodeline
     " ファイルタイプの検出
     filetype on
-
-    "画面分割ショートカット
-    "等分
-    nnoremap s= <C-w>=
+    " .mファイルはobjc
+    let g:filetype_m='objc'
+    " .mmファイルはobjcpp
+    au BufNewFile,BufRead *.mm setf objcpp
+    " .tsファイルはtypescript
+    au BufNewFile,BufRead *.ts setf typescript
+    " .qmlファイルはqml
+    au BufNewFile,BufRead *.qml setf qml
 
     "sudoで保存
     cnoremap w!! w !sudo tee > /dev/null %<CR> :e!<CR>
 
-    nmap <C-t> :terminal <CR>
+    nnoremap <C-t> :terminal <CR>
+    tnoremap <C-w> <C-\><C-n><C-w>
 
-    tmap <C-w><C-w> <C-\><C-n><C-w><C-w>
+    "python3
+    let g:python3_host_prog=expand('~/anaconda3/bin/python3')
 
-    "python
-    let g:python_host_prog=expand('/home/kouga/anaconda3/bin/python3')
+    "ruby
+    let g:ruby_host_prog='/usr/bin/ruby'
 
     "プラグインがインストールされるディレクトリ
-    let s:dein_dir=expand('/home/kouga/.cache/dein')
+    let s:dein_dir=expand('~/.cache/dein')
     "dein.vim 本体
-    let s:dein_repo_dir=s:dein_dir.'/repos/github.com/Shougo/dein.vim'
+    let s:dein_repo_dir=s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
     "deinがなければgithubから落としてくる
     if &runtimepath!~#'/dein.vim'
@@ -106,16 +112,13 @@
         "プラグインリストを収めたTOMLファイル
         "予めTOMLファイルを用意しておく
 
-        let g:rc_dir=expand('/home/kouga/.config/nvim')
+        let g:rc_dir=expand('~/.config/nvim')
         let s:toml=g:rc_dir . '/dein.toml'
         let s:lazy_toml=g:rc_dir . '/dein_lazy.toml'
         "TOMLを読み込み、キャッシュしておく
         call dein#load_toml(s:toml,{'lazy':0})
         call dein#load_toml(s:lazy_toml,{'lazy':1})
         "設定終了
-        "ALEの設定
-        let g:ale_completion_enabled=1
-        let g:ale_fix_on_save=1
         call dein#end()
         call dein#save_state()
     endif
