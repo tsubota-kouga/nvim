@@ -68,6 +68,7 @@
     set showcmd
     "テキストの折りたたみを有効化
     " set foldmethod=indent
+    set nofoldenable
     set nomodeline
     " ファイルタイプの検出
     filetype on

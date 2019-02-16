@@ -76,14 +76,24 @@
     [[plugins]]
     repo='itchyny/lightline.vim'
     hook_add='''
+    function! GitStr() abort
+        if len(fugitive#head()) != 0
+            return '⭠ ' . fugitive#head()
+        else
+            return ''
+        endif
+    endfunction
+
     let g:lightline = {
                 \ 'colorscheme': 'powerline',
                 \ 'active': {
                 \   'left': [ [ 'mode', 'paste' ],
                 \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
                 \   },
+                \   'separator': { 'left': '⮀', 'right': '⮂' },
+                \   'subseparator': { 'left': '⮁', 'right': '⮃' },
                 \   'component_function': {
-                \   'gitbranch': 'fugitive#head'
+                \       'gitbranch': 'GitStr'
                 \   },
                 \ }
     '''
