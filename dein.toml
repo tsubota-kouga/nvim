@@ -15,6 +15,9 @@
     \ "\<plug>(neosnippet_expand_or_jump)" : "\<tab>"
     '''
 
+    [[plugins]]
+    repo='Shougo/deol.nvim'
+
     #簡単実行できる
     [[plugins]]
     repo='thinca/vim-quickrun'
@@ -38,19 +41,6 @@
     #コマンド集
     [[plugins]]
     repo='Shougo/denite.nvim'
-
-    [[plugins]]
-    repo='LeafCage/yankround.vim'
-    hook_add='''
-        nmap p <Plug>(yankround-p)
-        xmap p <Plug>(yankround-p)
-        nmap P <Plug>(yankround-P)
-        nmap gp <Plug>(yankround-gp)
-        xmap gp <Plug>(yankround-gp)
-        nmap gP <Plug>(yankround-gP)
-        nmap <C-p> <Plug>(yankround-prev)
-        nmap <C-n> <Plug>(yankround-next)
-        '''
 
     #文字に色をつける
     [[plugins]]
@@ -106,17 +96,9 @@
     [[plugins]]
     repo='Yggdroot/indentLine'
 
-    #tomlファイルの構文予測
-    [[plugins]]
-    repo='cespare/vim-toml'
-    on_ft='toml'
-
     #ファイルをツリー構造で表示可能
     [[plugins]]
     repo='scrooloose/nerdtree'
-    hook_source='''
-    let g:syntastic_vim_checkers=['vint']
-    '''
 
     # 文法チェック
     [[plugins]]
@@ -154,35 +136,46 @@
     [[plugins]]
     repo='osyo-manga/vim-brightest'
 
-    #<F2>でヘッダとソースを行き来
+    #<F2>で開きたいであろうファイルを開く
     [[plugins]]
     repo='kana/vim-altr'
     hook_source='''
     nmap <F2> <Plug>(altr-forward)
     '''
 
-    # typescript
-    [[plugins]]
-    repo='HerringtonDarkholme/yats.vim'
-
-    # GLSL
-    [[plugins]]
-    repo='tikhomirov/vim-glsl'
-
     # Basilico
     [[plugins]]
     repo='~/Documents/cpp/Basilico'
-    build='./build.sh'
+    build='bash build.sh'
     hook_add='''
-    let g:basilico_plugin_default_dir=expand('~/.cache/dein/repos/github.com')
-    let g:basilico_plugin_added=[expand('~/Documents/cpp/WebView'),
-                \                expand('~/Documents/cpp/RuntimeView'),
-                \                expand('~/Documents/cpp/PDFView')]
+    let g:basilico#tabline_style_sheet =
+                \ 'color: #ffffff;
+                \ background-color: #444444;
+                \ font-weight 8;'
+    let g:basilico#ext_tabline = v:true
+    let g:basilico#ext_popupmenu = v:false
     '''
 
-    # NeoVim GUI Plugins
+    # Basilico GUI Plugins
     [[plugins]]
-    repo='~/Documents/cpp/WebView'
+    repo='~/Documents/cpp/BasilWeb'
+    hook_add='''
+    let g:basilweb#setting_dict = {}
+    let g:basilweb#setting_dict['progressbar_style_sheet'] =
+                \ 'QProgressBar
+                \ {
+                \     max-height: 5px;
+                \     border: 1px solid grey;
+                \     background-color: #999999;
+                \     border-radius: 5px;
+                \ }
+                \ QProgressBar::chunk
+                \ {
+                \     background-color: grey;
+                \ }'
+    let g:basilweb#color_scheme = 'dark'
+    nnoremap <silent><C-LeftMouse> :call basilweb#openweb_with_cursor_url()<CR>
+    '''
 
     [[plugins]]
     repo='~/Documents/cpp/RuntimeView'
@@ -209,7 +202,7 @@
     hook_add='''
     set hidden
     let g:lsp_dir=expand('~/.cache/lsp_neovim')
-    let g:LanguageClient_autoStart=1
+    let g:LanguageClient_autoStart = 1
     let g:LanguageClient_serverCommands={}
     let g:LanguageClient_serverCommands['c']=['clangd']
     let g:LanguageClient_serverCommands['cpp']=['clangd']
@@ -275,7 +268,16 @@
 
     [[plugins]]
     repo='~/Documents/python/BugHunt.nvim'
-
+    hook_add='''
+    nnoremap <A-b> :call bughunt#breakpoint()<CR>
+    '''
     [[plugins]]
     repo='~/Documents/python/BugHunt-gdb'
     depends=['BugHunt.nvim']
+    hook_add='''
+    let g:bughunt#terminal#name_color = '#9AF4FE'
+    let g:bughunt#terminal#top_string = ['', '']
+    let g:bughunt#terminal#last_string = ['', ' >>> ']
+    let g:bughunt#debug_status_win_width = 35
+    let g:bughunt#debug_cmd_win_height = 15
+    '''

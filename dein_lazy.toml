@@ -18,19 +18,6 @@
     # g:deoplete#source#jedi#server_timeout=40
     # '''
 
-    #C系補完機能
-    # [[plugins]]
-    # repo='tweekmonster/deoplete-clang2'
-    # hook_post_source='''
-    # set runtimepath+=/tmp/deoplete.nvim/
-    # set runtimepath+=~/tmp/deoplete-clang/
-    # let g:deoplete#enable_at_startup=1
-    # let g:deoplete#sources#clang#executable='/usr/bin/clang'
-    # '''
-    # on_ft=['c','cpp','cmake','objc','objcpp']
-    # on_event='InsertEnter'
-    # depends=['deoplete.nvim']
-
     [[plugins]]
     repo='Shougo/neoinclude.vim'
     on_event='InsertEnter'
@@ -45,7 +32,7 @@
     #html補完
     [[plugins]]
     repo='mattn/emmet-vim'
-    hook_post_source='''
+    hook_source='''
     let g:user_emmet_settings={
         \ 'lang' : 'ja',
         \ 'html' : {
@@ -59,8 +46,9 @@
         \   'filters' : 'html',
         \ },
         \ }
+    let g:user_emmet_leader_key='<C-h>'
        '''
-    on_ft=['html']
+    on_ft=['html', 'css', 'php']
     on_event='InsertEnter'
 
     #html
@@ -110,6 +98,7 @@
     call lexima#add_rule({'char': '<C-]>', 'at': '\%#}', 'leave': 1})
     call lexima#add_rule({'char': '<C-]>', 'at': '\%#''', 'leave': 1})
     call lexima#add_rule({'char': '<C-]>', 'at': '\%#>>>', 'leave': 3})
+    call lexima#add_rule({'char': '<C-]>', 'at': '\%#>', 'leave': 1})
     call lexima#add_rule({'char': '<', 'at': '<<\%#', 'input_after': '>>>', 'filetype': 'cuda'})
     call lexima#add_rule({'char': '>', 'at': '\%#>>>', 'leave': 3, 'filetype': 'cuda'})
     call lexima#add_rule({'char': '<BS>', 'at': '<<<\%#>>>', 'input': '<BS><BS><BS>', 'delete': 3, 'filetype': 'cuda'})
@@ -127,21 +116,16 @@
     repo='kana/vim-smartchr'
     hook_add='''
     inoremap <expr> , smartchr#loop(', ',',')
-    au Filetype python,pyrex,lua,c,cpp,objc,objcpp,java,nim,typescript,javascript
-                \ inoremap <buffer><expr> < search('\(#include\\|#import\)\s*\%#','bcn') ?
-                \ '<><LEFT>': search('cout.*\%#', 'bcn')?
-                \ smartchr#loop(' < ', ' << '): search('\.\%#', 'bcn')?
-                \ '<': smartchr#one_of(' < ', '<<', '<')
-    au Filetype python,pyrex,c,cpp,lua,nim,typescript,javascript
-                \ inoremap <buffer><expr> > search('\(#include\\|#import\)\%#','bcn')?
-                \ '>': search('\s=\s\%#', 'bcn')?
-                \ '<BS>> ': smartchr#loop(' > ', ' >> ', '>')
+    au FileType python,pyrex,lua,c,cpp,objc,objcpp,java,nim,typescript,javascript
+                \ inoremap <buffer><expr> < smartchr#one_of(' < ', ' << ', '<')
+    au FileType python,pyrex,c,cpp,lua,nim,typescript,javascript
+                \ inoremap <buffer><expr> > smartchr#one_of(' > ', ' >> ', '>')
     au FileType javascript,typescript
                 \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\)\s\%#','bcn')?
                 \ '<BS>= ': search('!\%#', 'bcn')?
                 \ '<BS> != ': search('!=\+ \%#', 'bcn')?
                 \ '<BS>= ': smartchr#one_of(' = ', ' == ', ' === ')
-    au Filetype python,pyrex,lua,c,cpp,cuda,objc,objcpp,java,nim
+    au FileType python,pyrex,lua,c,cpp,cuda,objc,objcpp,java,nim
                 \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\)\s\%#','bcn')?
                 \ '<BS>= ': search('.*!\%#', 'bcn')?
                 \ '<BS> != ': smartchr#one_of(' = ', ' == ', '=')
@@ -163,7 +147,7 @@
                 \ inoremap <buffer><expr> - smartchr#one_of(' - ', '--', '-')
     au FileType c,cuda,objc,java
                 \ inoremap <buffer><expr> & smartchr#one_of('&', ' && ', ' & ', '&=')
-    au Filetype c,cpp,cuda,python,pyrex,java
+    au FileType c,cpp,cuda,python,pyrex,java
                 \ inoremap <buffer><expr> . smartchr#one_of('.','->','..')
     au FileType php
                 \ inoremap <buffer><expr> ? search('<\%#', 'bcn') ?
@@ -193,4 +177,23 @@
     on_ft=['ruby']
     depends=['deoplete.nvim']
 
+    [[plugins]]
+    repo='zchee/deoplete-go'
+    on_event='InsertEnter'
+    on_ft=['go']
+    depends=['deoplete.nvim']
 
+    #tomlファイルの構文予測
+    [[plugins]]
+    repo='cespare/vim-toml'
+    on_ft='toml'
+
+    # typescript
+    [[plugins]]
+    repo='HerringtonDarkholme/yats.vim'
+    on_ft='typescript'
+
+    # GLSL
+    [[plugins]]
+    repo='tikhomirov/vim-glsl'
+    on_ft='glsl'

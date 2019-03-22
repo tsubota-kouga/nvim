@@ -41,7 +41,9 @@
     set number
     "カーソルラインをハイライト
     set cursorline
-    "行が折り返し表示されていた場合、行単位でなく表示単位でカーソリ移動する
+    "タブラインを常に表示
+    set showtabline=1
+    "行が折り返し表示されていた場合、行単位でなく表示単位でカーソル移動する
     nnoremap j gj
     nnoremap k gk
     nnoremap <down> gj
@@ -70,6 +72,7 @@
     " set foldmethod=indent
     set nofoldenable
     set nomodeline
+    set mouse=a
     " ファイルタイプの検出
     filetype on
     " .mファイルはobjc
@@ -86,6 +89,7 @@
 
     nnoremap <C-t> :terminal <CR>
     tnoremap <C-w> <C-\><C-n><C-w>
+    " au TermOpen * startinsert
 
     "python3
     let g:python3_host_prog=expand('~/anaconda3/bin/python3')
