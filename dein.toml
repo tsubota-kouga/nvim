@@ -119,7 +119,7 @@
                 \ 'vim': ['vint'],
                 \ 'lua': [],
                 \ 'python': [],
-                \ 'nim': [],
+                \ 'nim': ['nim check'],
                 \ 'javascript': []
                 \ }
     '''
@@ -135,12 +135,11 @@
     # 1回出てきたものをハイライト
     [[plugins]]
     repo='osyo-manga/vim-brightest'
-
-    #<F2>で開きたいであろうファイルを開く
-    [[plugins]]
-    repo='kana/vim-altr'
-    hook_source='''
-    nmap <F2> <Plug>(altr-forward)
+    hook_add='''
+    let g:brightest#highlight = {
+                \     'group': 'BrightestReverse'
+                \ }
+    let g:brightest#pattern = '\k\+'
     '''
 
     # Basilico
@@ -148,10 +147,7 @@
     repo='~/Documents/cpp/Basilico'
     build='bash build.sh'
     hook_add='''
-    let g:basilico#tabline_style_sheet =
-                \ 'color: #ffffff;
-                \ background-color: #444444;
-                \ font-weight 8;'
+    let g:basilico#color_theme = 'dark'
     let g:basilico#ext_tabline = v:true
     let g:basilico#ext_popupmenu = v:false
     '''
@@ -198,7 +194,7 @@
     repo='autozimu/LanguageClient-neovim'
     rev='next'
     build='./install.sh'
-    on_ft=['c', 'cpp', 'nim', 'rust', 'lua', 'java', 'python', 'javascript', 'javascript.jsx']
+    on_ft=['c', 'cpp', 'rust', 'nim', 'lua', 'java', 'python', 'javascript', 'javascript.jsx']
     hook_add='''
     set hidden
     let g:lsp_dir=expand('~/.cache/lsp_neovim')
@@ -206,7 +202,7 @@
     let g:LanguageClient_serverCommands={}
     let g:LanguageClient_serverCommands['c']=['clangd']
     let g:LanguageClient_serverCommands['cpp']=['clangd']
-    let g:LanguageClient_serverCommands['nim']=[g:lsp_dir . '/nim/nimlsp/nimlsp']
+    " let g:LanguageClient_serverCommands['nim']=[g:lsp_dir . '/nim/nimlsp/nimlsp']
     let g:LanguageClient_serverCommands['rust']=['rls']
     let g:LanguageClient_serverCommands['lua']=['lua-lsp']
     let g:LanguageClient_serverCommands['python']=['pyls']
@@ -263,8 +259,19 @@
     \        "signTexthl": "ALEInfoSign",
     \    },
     \}
-    " set completefunc=g:LanguageClient#complete
+    set hidden
+    nnoremap <silent> <A-h> :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <silent> <A-r> :call LanguageClient#textDocument_rename()<CR>
+    nnoremap <silent> <A-d> :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <silent> <A-s> :call LanguageClient#textDocument_documentSymbol()<CR>
+    nnoremap <silent> <A-f> :call LanguageClient#textDocument_formatting()<CR>
+    nnoremap <silent> <A-a> :call LanguageClient#textDocument_codeAction()<CR>
+    nnoremap <silent> <A-e> :call LanguageClient#explainErrorAtPoint()<CR>
+    nnoremap <silent> <A-m> :call LanguageClient_contextMenu()<CR>
     '''
+
+    [[plugins]]
+    repo='junegunn/fzf'
 
     [[plugins]]
     repo='~/Documents/python/BugHunt.nvim'
@@ -281,3 +288,23 @@
     let g:bughunt#debug_status_win_width = 35
     let g:bughunt#debug_cmd_win_height = 15
     '''
+
+    [[plugins]]
+    repo='vim-scripts/DrawIt'
+
+    [[plugins]]
+    repo='t9md/vim-textmanip'
+    hook_add='''
+    vmap <C-j> <Plug>(textmanip-move-down)
+    vmap <C-k> <Plug>(textmanip-move-up)
+    vmap <C-h> <Plug>(textmanip-move-left)
+    vmap <C-l> <Plug>(textmanip-move-right)
+    vmap <A-k> <Plug>(textmanip-duplicate-up)
+    vmap <A-j> <Plug>(textmanip-duplicate-down)
+    vmap <A-h> <Plug>(textmanip-duplicate-left)
+    vmap <A-l> <Plug>(textmanip-duplicate-right)
+    '''
+
+    [[plugins]]
+    repo='tpope/vim-surround'
+

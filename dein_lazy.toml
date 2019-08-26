@@ -6,7 +6,7 @@
     on_event='InsertEnter'
     depends=['deoplete.nvim']
 
-    # #python補完機能
+    #python補完機能
     # [[plugins]]
     # repo='zchee/deoplete-jedi'
     # #insertモードで読み込み
@@ -46,15 +46,10 @@
         \   'filters' : 'html',
         \ },
         \ }
-    let g:user_emmet_leader_key='<C-h>'
+    let g:user_emmet_leader_key='<C-_>'
        '''
     on_ft=['html', 'css', 'php']
     on_event='InsertEnter'
-
-    #html
-    [[plugins]]
-    repo='tpope/vim-surround'
-    on_ft=['html']
 
     [[plugins]]
     repo='othree/html5.vim'
@@ -103,6 +98,7 @@
     call lexima#add_rule({'char': '>', 'at': '\%#>>>', 'leave': 3, 'filetype': 'cuda'})
     call lexima#add_rule({'char': '<BS>', 'at': '<<<\%#>>>', 'input': '<BS><BS><BS>', 'delete': 3, 'filetype': 'cuda'})
     call lexima#add_rule({'char': '%', 'at': '{\%#', 'input_after': '%'})
+    call lexima#add_rule({'char': '.', 'at': '{\%#', 'input_after': '.'})
     """
 
     on_event='InsertEnter'
@@ -116,42 +112,51 @@
     repo='kana/vim-smartchr'
     hook_add='''
     inoremap <expr> , smartchr#loop(', ',',')
-    au FileType python,pyrex,lua,c,cpp,objc,objcpp,java,nim,typescript,javascript
+    au FileType python,pyrex,lua,c,cpp,objc,objcpp,rust,java,typescript,javascript,ruby
                 \ inoremap <buffer><expr> < smartchr#one_of(' < ', ' << ', '<')
-    au FileType python,pyrex,c,cpp,lua,nim,typescript,javascript
+    au FileType python,pyrex,c,cpp,objc,objcpp,java,lua,nim
                 \ inoremap <buffer><expr> > smartchr#one_of(' > ', ' >> ', '>')
+    au FileType rust,javascript,typescript,ruby
+                \ inoremap <buffer><expr> > search('= \%#', 'bcn') ?
+                \ '<BS>> ' : smartchr#one_of(' > ', ' >> ', '>')
     au FileType javascript,typescript
                 \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\)\s\%#','bcn')?
                 \ '<BS>= ': search('!\%#', 'bcn')?
                 \ '<BS> != ': search('!=\+ \%#', 'bcn')?
-                \ '<BS>= ': smartchr#one_of(' = ', ' == ', ' === ')
-    au FileType python,pyrex,lua,c,cpp,cuda,objc,objcpp,java,nim
+                \ '<BS>= ': smartchr#loop(' = ', ' == ', ' === ', '=')
+    au FileType python,pyrex,lua,c,cpp,cuda,objc,objcpp,rust,java,nim,toml,ruby
                 \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\)\s\%#','bcn')?
                 \ '<BS>= ': search('.*!\%#', 'bcn')?
                 \ '<BS> != ': smartchr#one_of(' = ', ' == ', '=')
-    au FileType python,pyrex,lua
+    au FileType python,pyrex,lua,ruby
                 \ inoremap <buffer><expr> + smartchr#one_of(' + ', '+')
-    au FileType python,pyrex,lua
+    au FileType python,pyrex,lua,ruby
                 \ inoremap <buffer><expr> - smartchr#one_of(' - ', '-')
     au FileType python,pyrex,lua,javascript,nim
                 \ inoremap <buffer><expr> / smartchr#one_of(' / ', ' // ', '/')
-    au FileType python,pyrex,nim
+    au FileType python,pyrex,ruby
                 \ inoremap <buffer><expr> * smartchr#one_of(' * ', ' ** ', '*')
-    au FileType python,pyrex,nim
+    au FileType python,pyrex
                 \ inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
     au FileType lua
                 \ inoremap <buffer><expr> ^ smartchr#loop(' ^ ', '^')
-    au FileType javascript,c,cpp,cuda,objc,objcpp,java,nim,typescript,javascript
+    au FileType javascript,c,cpp,cuda,objc,objcpp,rust,java,nim,typescript,javascript
                 \ inoremap <buffer><expr> + smartchr#one_of(' + ', '++', '+')
     au FileType javascript,c,cpp,cuda,objc,objcpp,java,nim,typescript,javascript
                 \ inoremap <buffer><expr> - smartchr#one_of(' - ', '--', '-')
+    au FileType rust
+                \ inoremap <buffer><expr> - search('< \%#', 'bcn') ?
+                \ '- ' : smartchr#one_of(' - ', '--', '-')
     au FileType c,cuda,objc,java
                 \ inoremap <buffer><expr> & smartchr#one_of('&', ' && ', ' & ', '&=')
-    au FileType c,cpp,cuda,python,pyrex,java
+    au FileType c,cpp,cuda,python,pyrex,rust,java
                 \ inoremap <buffer><expr> . smartchr#one_of('.','->','..')
     au FileType php
                 \ inoremap <buffer><expr> ? search('<\%#', 'bcn') ?
-                \ '??><LEFT><LEFT>': '?'
+                \ '??><LEFT><LEFT>' : '?'
+    au FileType nim
+                \ inoremap <buffer><expr> < search('\.\%#', 'bcn') ?
+                \ '<' : smartchr#one_of(' < ', ' << ', '<')
 
     inoremap <buffer><expr> <BS> search('<\%#>','bcn')? '<BS><DEL>': '<BS>'
     inoremap <C-l> <><LEFT>
