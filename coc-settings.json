@@ -1,0 +1,48 @@
+{
+    "clangd.path": "/home/kouga/.config/coc/extensions/coc-clangd-data/install/11.0.0/clangd_11.0.0/bin/clangd",
+
+    "languageserver": {
+        "julia": {
+            "command": "/usr/local/bin/julia",
+            "args": [
+                "/home/kouga/.cache/lsp_neovim/julia/LSPClient/src/LSPClient.jl"
+            ],
+            "filetypes": [
+                "julia"
+            ]
+        }
+    },
+
+    "explorer.position": "floating",
+    "explorer.width": 30,
+    "explorer.icon.enableNerdfont": true,
+    "explorer.keyMappingMode": "none",
+    "explorer.keyMappings.global": {
+        "e": "open",
+        "i": "open:split",
+        "s": "open:vsplit",
+        "t": "open:tab",
+        "u": ["wait", "gotoParent"],
+        "o": ["wait", "expanded?", "collapse", "expand"],
+        "p": "pasteFile",
+        "I": "toggleHidden",
+        "f": "search",
+        "F": "searchRecursive",
+        "ma": "addFile",
+        "md": "delete",
+        "mr": "rename",
+        "yy": "copyFile",
+        "R": "refresh",
+        "q": "quit",
+        "X": "systemExecute",
+        "?": "help",
+        "<<": "gitStage",
+        ">>": "gitUnstage",
+        "<A-h>": "preview:content",
+        "<2-LeftMouse>": [
+            "expandable?",
+            ["expanded?", "collapse", "expand"],
+            "open"
+        ]
+    }
+}

@@ -3,17 +3,19 @@
     [[plugins]]
     repo='Shougo/dein.vim'
 
-    [[plugins]]
-    repo='Shougo/deoplete.nvim'
-    hook_add='''
-    let g:deoplete#enable_at_startup=1
-    let g:deoplete#omni_patterns={}
-    let g:deoplete#auto_complete_delay=0
-    let g:deoplete#auto_complete_start_length=1
-    imap <expr><tab> pumvisible() ? "\<c-n>" :
-    \ neosnippet#expandable_or_jumpable() ?
-    \ "\<plug>(neosnippet_expand_or_jump)" : "\<tab>"
-    '''
+    # [[plugins]]
+    # repo='Shougo/deoplete.nvim'
+    # hook_add='''
+    # let g:deoplete#enable_at_startup=1
+    # let g:deoplete#omni_patterns={}
+    # call g:deoplete#custom#option("camel_case", v:true)
+    # call g:deoplete#custom#option("min_pattern_length", 1)
+    # " let g:deoplete#auto_complete_delay=0
+    # " let g:deoplete#auto_complete_start_length=1
+    # imap <expr><tab> pumvisible() ? "\<c-n>" :
+    # \ neosnippet#expandable_or_jumpable() ?
+    # \ "\<plug>(neosnippet_expand_or_jump)" : "\<tab>"
+    # '''
 
     [[plugins]]
     repo='Shougo/deol.nvim'
@@ -68,10 +70,18 @@
     hook_add='''
     function! GitStr() abort
         if len(fugitive#head()) != 0
-            return '⭠ ' . fugitive#head()
+            return nr2char(0xe725) . ' ' . fugitive#head()
         else
             return ''
         endif
+    endfunction
+
+    function! MyFiletype() abort
+        return strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft'
+    endfunction
+
+    function! MyFileformat()
+        return &fileformat . ' ' . WebDevIconsGetFileFormatSymbol()
     endfunction
 
     let g:lightline = {
@@ -80,49 +90,122 @@
                 \   'left': [ [ 'mode', 'paste' ],
                 \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
                 \   },
-                \   'separator': { 'left': '⮀', 'right': '⮂' },
-                \   'subseparator': { 'left': '⮁', 'right': '⮃' },
+                \   'separator': { 'left': nr2char(0xe0b0), 'right': nr2char(0xe0b2) },
+                \   'subseparator': { 'left': nr2char(0xe0b1), 'right': nr2char(0xe0b3) },
                 \   'component_function': {
-                \       'gitbranch': 'GitStr'
+                \       'gitbranch': 'GitStr',
+                \       'filetype': 'MyFiletype',
+                " \       'fileformat': 'MyFileformat',
                 \   },
                 \ }
     '''
 
-    #末尾の全角と半角の空白を色付け :FixWhitespace
     [[plugins]]
-    repo='bronson/vim-trailing-whitespace'
-
-    #インデントの可視化
-    [[plugins]]
-    repo='Yggdroot/indentLine'
-
-    #ファイルをツリー構造で表示可能
-    [[plugins]]
-    repo='scrooloose/nerdtree'
-
-    # 文法チェック
-    [[plugins]]
-    repo='w0rp/ale'
+    repo='ntpeters/vim-better-whitespace'
     hook_add='''
-    let g:ale_fix_on_save=1
-    let g:ale_lint_on_text_changed='never'
-    let g:ale_set_loclist=0
-    let g:ale_set_quickfix=1
-    let g:ale_completion_enabled=0
-    nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-    nmap <silent> <C-j> <Plug>(ale_next_wrap)
-    let g:ale_linters = {
-                \ 'cpp': [],
-                \ 'c': [],
-                \ 'javac': [],
-                \ 'rust': [],
-                \ 'vim': ['vint'],
-                \ 'lua': [],
-                \ 'python': [],
-                \ 'nim': ['nim check'],
-                \ 'javascript': []
-                \ }
+    " highlight ExtraWhitespace ctermbg=''
+    let g:better_whitespace_filetypes_blacklist=['defx', 'diff', 'gitcommit', 'help']
+    let g:strip_whitespace_on_save=1
     '''
+
+    # #インデントの可視化
+    [[plugins]]
+    repo='nathanaelkane/vim-indent-guides'
+    hook_source='''
+    let g:indent_guides_auto_colors=0
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#323232
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#212121
+    '''
+    hook_add='''
+    let g:indent_guides_enable_on_vim_startup=1
+    let g:indent_guides_start_level=1
+    let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar', 'unite']
+    '''
+
+    # [[plugins]]
+    # repo='Shougo/defx.nvim'
+    # hook_add='''
+    # call defx#custom#option('_', {
+    #             \ 'winwidth': 30,
+    #             \ 'split': 'vertical',
+    #             \ 'direction': 'topleft',
+    #             \ 'show_ignored_files': 0,
+    #             \ 'buffer_name': 'filer',
+    #             \ 'toggle': 1,
+    #             \ 'resume': 1,
+    #             \ 'columns': 'indent:git:icons:filename:mark',
+    #             \ })
+    #
+    # nnoremap <silent> <A-n> :<C-u> Defx <CR>
+    # augroup Defx
+    #     au FileType defx nnoremap <silent><buffer><expr> <CR>
+    #                 \ defx#is_directory() ? defx#do_action('open_or_close_tree') : defx#do_action('drop')
+    #     au FileType defx nnoremap <silent><buffer><expr> mm defx#do_action('move')
+    #     au FileType defx nnoremap <silent><buffer><expr> y defx#do_action('copy')
+    #     au FileType defx nnoremap <silent><buffer><expr> p defx#do_action('paste')
+    #     au FileType defx nnoremap <silent><buffer><expr> t defx#do_action('open', 'tabnew')
+    #     au FileType defx nnoremap <silent><buffer><expr> s defx#do_action('open', 'belowright vsplit')
+    #     au FileType defx nnoremap <silent><buffer><expr> i defx#do_action('drop', 'split')
+    #     au FileType defx nnoremap <silent><buffer><expr> o defx#do_action('open_or_close_tree')
+    #     au FileType defx nnoremap <silent><buffer><expr> ma defx#do_action('new_file')
+    #     au FileType defx nnoremap <silent><buffer><expr> md defx#do_action('remove')
+    #     au FileType defx nnoremap <silent><buffer><expr> mr defx#do_action('rename')
+    #     au FileType defx nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
+    #     au FileType defx nnoremap <silent><buffer><expr> r defx#do_action('redraw')
+    #     au FileType defx nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
+    #     au FileType defx nnoremap <silent><buffer><expr> I defx#do_action('toggle_ignored_files')
+    #     au FileType defx nnoremap <silent><buffer><expr> <2-LeftMouse>
+    #                 \ defx#is_directory() ? defx#do_action('open_or_close_tree') : defx#do_action('drop')
+    #     au BufWritePost * call defx#redraw()
+    #     au BufEnter * call defx#redraw()
+    # augroup END
+    # '''
+
+    [[plugins]]
+    repo='ryanoasis/vim-devicons'
+
+    [[plugins]]
+    repo='kristijanhusak/defx-icons'
+    depends=['defx.nvim', 'vim-devicons']
+
+    [[plugins]]
+    repo='kristijanhusak/defx-git'
+    depends=['defx.nvim']
+    # hook_add='''
+    # call defx#custom#source('git', 'indicators', {
+    #             \ 'Modified': nr2char(0xf5c3),
+    #             \ 'Deleted': nr2char(0x6fbf),
+    #             \ 'Untracked': nr2char(0x006),
+    #             \ 'Ignored': nr2char(0xf474),
+    #             \ })
+    # '''
+
+    # [[plugins]]
+    # repo='w0rp/ale'
+    # hook_add='''
+    # let g:ale_fix_on_save=1
+    # let g:ale_lint_on_text_changed='never'
+    # let g:ale_set_loclist=0
+    # let g:ale_set_quickfix=1
+    # let g:ale_completion_enabled=0
+    # nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+    # nmap <silent> <C-j> <Plug>(ale_next_wrap)
+    # let g:ale_linters = {
+    #             \ 'cpp': [],
+    #             \ 'c': [],
+    #             \ 'javac': [],
+    #             \ 'rust': [],
+    #             \ 'vim': ['vint'],
+    #             \ 'lua': [],
+    #             \ 'python': [],
+    #             \ 'nim': [],
+    #             \ 'javascript': [],
+    #             \ 'haskell': [],
+    #             \ 'typescript': [],
+    #             \ 'typescriptreact': [],
+    #             \ 'typescript.tsx': [],
+    #             \ }
+    # '''
 
     #snippets
     [[plugins]]
@@ -133,54 +216,54 @@
     repo='Shougo/context_filetype.vim'
 
     # 1回出てきたものをハイライト
-    [[plugins]]
-    repo='osyo-manga/vim-brightest'
-    hook_add='''
-    let g:brightest#highlight = {
-                \     'group': 'BrightestReverse'
-                \ }
-    let g:brightest#pattern = '\k\+'
-    '''
+    # [[plugins]]
+    # repo='osyo-manga/vim-brightest'
+    # hook_add='''
+    # let g:brightest#highlight = {
+    #             \     'group': 'BrightestReverse'
+    #             \ }
+    # let g:brightest#pattern = '\k\+'
+    # '''
 
-    # Basilico
-    [[plugins]]
-    repo='~/Documents/cpp/Basilico'
-    build='bash build.sh'
-    hook_add='''
-    let g:basilico#color_theme = 'dark'
-    let g:basilico#ext_tabline = v:true
-    let g:basilico#ext_popupmenu = v:false
-    '''
-
-    # Basilico GUI Plugins
-    [[plugins]]
-    repo='~/Documents/cpp/BasilWeb'
-    hook_add='''
-    let g:basilweb#setting_dict = {}
-    let g:basilweb#setting_dict['progressbar_style_sheet'] =
-                \ 'QProgressBar
-                \ {
-                \     max-height: 5px;
-                \     border: 1px solid grey;
-                \     background-color: #999999;
-                \     border-radius: 5px;
-                \ }
-                \ QProgressBar::chunk
-                \ {
-                \     background-color: grey;
-                \ }'
-    let g:basilweb#color_scheme = 'dark'
-    nnoremap <silent><C-LeftMouse> :call basilweb#openweb_with_cursor_url()<CR>
-    '''
-
-    [[plugins]]
-    repo='~/Documents/cpp/RuntimeView'
-    hook_add='''
-    let g:runtime_view#css_name = 'github-gist'
-    '''
-
-    [[plugins]]
-    repo='~/Documents/cpp/PDFView'
+    # # Basilico
+    # [[plugins]]
+    # repo='~/Documents/cpp/Basilico'
+    # build='bash build.sh'
+    # hook_add='''
+    # let g:basilico#color_theme = 'dark'
+    # let g:basilico#ext_tabline = v:true
+    # let g:basilico#ext_popupmenu = v:false
+    # '''
+    #
+    # # Basilico GUI Plugins
+    # [[plugins]]
+    # repo='~/Documents/cpp/BasilWeb'
+    # hook_add='''
+    # let g:basilweb#setting_dict = {}
+    # let g:basilweb#setting_dict['progressbar_style_sheet'] =
+    #             \ 'QProgressBar
+    #             \ {
+    #             \     max-height: 5px;
+    #             \     border: 1px solid grey;
+    #             \     background-color: #999999;
+    #             \     border-radius: 5px;
+    #             \ }
+    #             \ QProgressBar::chunk
+    #             \ {
+    #             \     background-color: grey;
+    #             \ }'
+    # let g:basilweb#color_scheme = 'dark'
+    # nnoremap <silent><C-LeftMouse> :call basilweb#openweb_with_cursor_url()<CR>
+    # '''
+    #
+    # [[plugins]]
+    # repo='~/Documents/cpp/RuntimeView'
+    # hook_add='''
+    # let g:runtime_view#css_name = 'github-gist'
+    # '''
+    #
+    # [[plugins]]
+    # repo='~/Documents/cpp/PDFView'
 
     #QML
     [[plugins]]
@@ -190,104 +273,168 @@
     [[plugins]]
     repo='mxw/vim-jsx'
 
+    # julia
     [[plugins]]
-    repo='autozimu/LanguageClient-neovim'
-    rev='next'
-    build='./install.sh'
-    on_ft=['c', 'cpp', 'rust', 'nim', 'lua', 'java', 'python', 'javascript', 'javascript.jsx']
+    repo='JuliaEditorSupport/julia-vim'
+
+    # kotlin
+    [[plugins]]
+    repo='udalov/kotlin-vim'
+
+    # pug
+    [[plugins]]
+    repo='digitaltoad/vim-pug'
+
+    [[plugins]]
+    repo='neoclide/coc.nvim'
+    rev='release'
     hook_add='''
     set hidden
-    let g:lsp_dir=expand('~/.cache/lsp_neovim')
-    let g:LanguageClient_autoStart = 1
-    let g:LanguageClient_serverCommands={}
-    let g:LanguageClient_serverCommands['c']=['clangd']
-    let g:LanguageClient_serverCommands['cpp']=['clangd']
-    " let g:LanguageClient_serverCommands['nim']=[g:lsp_dir . '/nim/nimlsp/nimlsp']
-    let g:LanguageClient_serverCommands['rust']=['rls']
-    let g:LanguageClient_serverCommands['lua']=['lua-lsp']
-    let g:LanguageClient_serverCommands['python']=['pyls']
-    let g:LanguageClient_serverCommands['javascript']=['node ' . g:lsp_dir . '/jtscript/lib/language-server']
-    let g:LanguageClient_serverCommands['javascript.jsx']=['node ' . g:lsp_dir . '/jtscript/lib/language-server']
+    inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
 
-    let l:jdt_lsp_path=expand(g:lsp_dir) .
-                \'/java-lsp'
-    let g:LanguageClient_serverCommands['java']=[
-                \ 'java',
-                \ '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044',
-                \ '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-                \ '-Dosgi.bundles.defaultStartLevel=4',
-                \ '-Declipse.product=org.eclipse.jdt.ls.core.product',
-                \ '-Dlog.protocol=true',
-                \ '-Dlog.level=ALL',
-                \ '-noverify',
-                \ '-Xmx1G',
-                \ '-jar',
-                \ expand(l:jdt_lsp_path) . '/plugins/org.eclipse.equinox.launcher_1.5.0.v20180207-1446.jar',
-                \ '-configuration',
-                \ expand(l:jdt_lsp_path) . '/config_linux',
-                \ '-data',
-                \ l:jdt_lsp_path . '/jdt_data',
-                \ '--add-modules=ALL-SYSTEM',
-                \ '--add-opens',
-                \ 'java.base/java.util=ALL-UNNAMED',
-                \ '--add-opens',
-                \ 'java.base/java.lang=ALL-UNNAMED',]
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-    let g:LanguageClient_diagnosticsDisplay={
-    \    1: {
-    \        "name": "Error",
-    \        "texthl": "ALEError",
-    \        "signText": ">>",
-    \        "signTexthl": "ALEErrorSign",
-    \    },
-    \    2: {
-    \        "name": "Warning",
-    \        "texthl": "ALEWarning",
-    \        "signText": "--",
-    \        "signTexthl": "ALEWarningSign",
-    \    },
-    \    3: {
-    \        "name": "Information",
-    \        "texthl": "ALEInfo",
-    \        "signText": "!!",
-    \        "signTexthl": "ALEInfoSign",
-    \    },
-    \    4: {
-    \        "name": "Hint",
-    \        "texthl": "ALEInfo",
-    \        "signText": "!!",
-    \        "signTexthl": "ALEInfoSign",
-    \    },
-    \}
-    set hidden
-    nnoremap <silent> <A-h> :call LanguageClient#textDocument_hover()<CR>
-    nnoremap <silent> <A-r> :call LanguageClient#textDocument_rename()<CR>
-    nnoremap <silent> <A-d> :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <silent> <A-s> :call LanguageClient#textDocument_documentSymbol()<CR>
-    nnoremap <silent> <A-f> :call LanguageClient#textDocument_formatting()<CR>
-    nnoremap <silent> <A-a> :call LanguageClient#textDocument_codeAction()<CR>
-    nnoremap <silent> <A-e> :call LanguageClient#explainErrorAtPoint()<CR>
-    nnoremap <silent> <A-m> :call LanguageClient_contextMenu()<CR>
+    nnoremap <silent> <A-h> :call CocActionAsync('doHover')<CR>
+    nnoremap <silent> <A-r> :call CocActionAsync('rename')<CR>
+    nnoremap <silent> <A-f> :call CocActionAsync('format')<CR>
+    nnoremap <silent> <A-a> :call CocActionAsync('codeAction')<CR>
+    nnoremap <silent> <A-l> :call CocActionAsync('openLink')<CR>
+    au CursorHold * silent call CocActionAsync('highlight')
+
+    nnoremap <silent> <A-m> :CocCommand explorer <CR>
+    nnoremap <silent> <A-n> :CocCommand explorer --position left <CR>
+
+    let g:coc_snippet_next = '<C-k>'
     '''
 
+    # nnoremap <silent> <A-h> :call LanguageClient#textDocument_hover()<CR>
+    # nnoremap <silent> <A-r> :call LanguageClient#textDocument_rename()<CR>
+    # nnoremap <silent> <A-d> :call LanguageClient#textDocument_definition()<CR>
+    # nnoremap <silent> <A-s> :call LanguageClient#textDocument_documentSymbol()<CR>
+    # nnoremap <silent> <A-f> :call LanguageClient#textDocument_formatting()<CR>
+    # nnoremap <silent> <A-a> :call LanguageClient#textDocument_codeAction()<CR>
+    # nnoremap <silent> <A-e> :call LanguageClient#explainErrorAtPoint()<CR>
+    # nnoremap <silent> <A-m> :call LanguageClient_contextMenu()<CR>
+
+    # [[plugins]]
+    # repo='autozimu/LanguageClient-neovim'
+    # rev='next'
+    # build='./install.sh'
+    # on_ft=['c', 'cpp', 'rust', 'lua', 'nim', 'java', 'python', 'javascript', 'javascript.jsx']
+    # hook_add='''
+    # set hidden
+    # let g:lsp_dir=expand('~/.cache/lsp_neovim')
+    # let g:LanguageClient_autoStart = 1
+    # let g:LanguageClient_serverCommands={}
+    # let g:LanguageClient_rootMarkers={}
+    # let g:LanguageClient_serverCommands['c']=['clangd']
+    # let g:LanguageClient_serverCommands['cpp']=['clangd']
+    # let g:LanguageClient_serverCommands['nim']=['nimlsp']
+    # let g:LanguageClient_serverCommands['rust']=['rls']
+    # let g:LanguageClient_serverCommands['lua']=['lua-lsp']
+    # let g:LanguageClient_serverCommands['python']=['pyls']
+    # let g:LanguageClient_serverCommands['sh']=['bash-language-server', 'start']
+    # let g:LanguageClient_serverCommands['typescript']=['typescript-language-server', '--stdio']
+    # let g:LanguageClient_serverCommands['typescript.tsx']=['typescript-language-server', '--stdio']
+    # let g:LanguageClient_serverCommands['typescriptreact']=['typescript-language-server', '--stdio']
+    # let g:LanguageClient_serverCommands['go']=['gopls']
+    # " let g:LanguageClient_serverCommands['javascript.jsx']=['javascript-typescript-server', '--stdio']
+    # let g:LanguageClient_serverCommands['kotlin']=['./' . g:lsp_dir . '/kotlin/kotlin-language-server/server/build/install/server/bin/kotlin-language-server']
+    # let g:LanguageClient_serverCommands['groovy']=['java -jar ' . g:lsp_dir . '/groovy/groovy-language-server/build/libs/groovy-language-server-all.jar']
+    # let g:LanguageClient_serverCommands['haskell']=['hie-wrapper']
+    # let g:LanguageClient_rootMarkers['haskell'] = ['*.cabal', 'stack.yaml']
+    # let g:LanguageClient_serverCommands['tex'] = ['texlab']
+    # let jdt_lsp_path=expand(g:lsp_dir) . '/java-lsp'
+    # let g:LanguageClient_serverCommands['java']=[
+    #             \ 'java',
+    #             \ '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044',
+    #             \ '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+    #             \ '-Dosgi.bundles.defaultStartLevel=4',
+    #             \ '-Declipse.product=org.eclipse.jdt.ls.core.product',
+    #             \ '-Dlog.protocol=true',
+    #             \ '-Dlog.level=ALL',
+    #             \ '-noverify',
+    #             \ '-Xmx1G',
+    #             \ '-jar',
+    #             \ expand(jdt_lsp_path) . '/plugins/org.eclipse.equinox.launcher_1.5.0.v20180207-1446.jar',
+    #             \ '-configuration',
+    #             \ expand(jdt_lsp_path) . '/config_linux',
+    #             \ '-data',
+    #             \ jdt_lsp_path . '/jdt_data',
+    #             \ '--add-modules=ALL-SYSTEM',
+    #             \ '--add-opens',
+    #             \ 'java.base/java.util=ALL-UNNAMED',
+    #             \ '--add-opens',
+    #             \ 'java.base/java.lang=ALL-UNNAMED',]
+    # let g:LanguageClient_rootMarkers['java']=['build.gradle']
+    # let g:LanguageClient_serverCommands['dart']=[
+    #             \ 'dart',
+    #             \ '$HOME/snap/flutter/common/flutter/bin/cache/dart-sdk/bin/snapshots/analysis_server.dart.snapshot',
+    #             \ '--lsp',
+    #             \ '--client-id', 'neovim.language_client']
+    #
+    # let g:LanguageClient_diagnosticsDisplay={
+    # \    1: {
+    # \        "name": "Error",
+    # \        "texthl": "ALEError",
+    # \        "signText": ">>",
+    # \        "signTexthl": "ALEErrorSign",
+    # \    },
+    # \    2: {
+    # \        "name": "Warning",
+    # \        "texthl": "ALEWarning",
+    # \        "signText": "--",
+    # \        "signTexthl": "ALEWarningSign",
+    # \    },
+    # \    3: {
+    # \        "name": "Information",
+    # \        "texthl": "ALEInfo",
+    # \        "signText": "!!",
+    # \        "signTexthl": "ALEInfoSign",
+    # \    },
+    # \    4: {
+    # \        "name": "Hint",
+    # \        "texthl": "ALEInfo",
+    # \        "signText": "!!",
+    # \        "signTexthl": "ALEInfoSign",
+    # \    },
+    # \}
+    # set hidden
+    # nnoremap <silent> <A-h> :call LanguageClient#textDocument_hover()<CR>
+    # nnoremap <silent> <A-r> :call LanguageClient#textDocument_rename()<CR>
+    # nnoremap <silent> <A-d> :call LanguageClient#textDocument_definition()<CR>
+    # nnoremap <silent> <A-s> :call LanguageClient#textDocument_documentSymbol()<CR>
+    # nnoremap <silent> <A-f> :call LanguageClient#textDocument_formatting()<CR>
+    # nnoremap <silent> <A-a> :call LanguageClient#textDocument_codeAction()<CR>
+    # nnoremap <silent> <A-e> :call LanguageClient#explainErrorAtPoint()<CR>
+    # nnoremap <silent> <A-m> :call LanguageClient_contextMenu()<CR>
+    # '''
+    #
     [[plugins]]
     repo='junegunn/fzf'
 
-    [[plugins]]
-    repo='~/Documents/python/BugHunt.nvim'
-    hook_add='''
-    nnoremap <A-b> :call bughunt#breakpoint()<CR>
-    '''
-    [[plugins]]
-    repo='~/Documents/python/BugHunt-gdb'
-    depends=['BugHunt.nvim']
-    hook_add='''
-    let g:bughunt#terminal#name_color = '#9AF4FE'
-    let g:bughunt#terminal#top_string = ['', '']
-    let g:bughunt#terminal#last_string = ['', ' >>> ']
-    let g:bughunt#debug_status_win_width = 35
-    let g:bughunt#debug_cmd_win_height = 15
-    '''
+    # [[plugins]]
+    # repo='~/Documents/python/BugHunt.nvim'
+    # hook_add='''
+    # nnoremap <A-b> :call bughunt#breakpoint()<CR>
+    # '''
+    # [[plugins]]
+    # repo='~/Documents/python/BugHunt-gdb'
+    # depends=['BugHunt.nvim']
+    # hook_add='''
+    # let g:bughunt#terminal#name_color = '#9AF4FE'
+    # let g:bughunt#terminal#top_string = ['', '']
+    # let g:bughunt#terminal#last_string = ['', ' >>> ']
+    # let g:bughunt#debug_status_win_width = 35
+    # let g:bughunt#debug_cmd_win_height = 15
+    # '''
 
     [[plugins]]
     repo='vim-scripts/DrawIt'
@@ -308,3 +455,9 @@
     [[plugins]]
     repo='tpope/vim-surround'
 
+    [[plugins]]
+    repo='Shougo/echodoc.vim'
+    hook_add='''
+    let g:echodoc#enable_at_startup = 1
+    let g:echodoc#type = 'signature'
+    '''
