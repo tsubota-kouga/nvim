@@ -39,6 +39,11 @@
         "<<": "gitStage",
         ">>": "gitUnstage",
         "<A-h>": "preview:content",
+        "<CR>": [
+            "expandable?",
+            ["expanded?", "collapse", "expand"],
+            "open"
+        ],
         "<2-LeftMouse>": [
             "expandable?",
             ["expanded?", "collapse", "expand"],
