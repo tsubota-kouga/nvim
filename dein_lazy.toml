@@ -1,215 +1,215 @@
 
-    #補完機能
-    # 多言語補完
-    # [[plugins]]
-    # repo='Shougo/neco-syntax'
-    # on_event='InsertEnter'
-    # depends=['deoplete.nvim']
+#補完機能
+# 多言語補完
+# [[plugins]]
+# repo='Shougo/neco-syntax'
+# on_event='InsertEnter'
+# depends=['deoplete.nvim']
 
-    [[plugins]]
-    repo='Shougo/neoinclude.vim'
-    on_event='InsertEnter'
-    on_ft=['c', 'cpp', 'objc', 'objcpp']
+[[plugins]]
+repo='Shougo/neoinclude.vim'
+on_event='InsertEnter'
+on_ft=['c', 'cpp', 'objc', 'objcpp']
 
-    #html補完
-    [[plugins]]
-    repo='mattn/emmet-vim'
-    hook_source='''
-    let g:user_emmet_settings={
-        \ 'lang' : 'ja',
-        \ 'html' : {
-        \   'filters' : 'html',
-        \ },
-        \ 'css' : {
-        \   'filters' : 'fc',
-        \ },
-        \ 'php' : {
-        \   'extends' : 'html',
-        \   'filters' : 'html',
-        \ },
-        \ }
-    let g:user_emmet_leader_key='<C-_>'
-       '''
-    on_ft=['html', 'css', 'php']
-    on_event='InsertEnter'
+#html補完
+[[plugins]]
+repo='mattn/emmet-vim'
+hook_source='''
+let g:user_emmet_settings={
+    \ 'lang' : 'ja',
+    \ 'html' : {
+    \   'filters' : 'html',
+    \ },
+    \ 'css' : {
+    \   'filters' : 'fc',
+    \ },
+    \ 'php' : {
+    \   'extends' : 'html',
+    \   'filters' : 'html',
+    \ },
+    \ }
+let g:user_emmet_leader_key='<C-_>'
+   '''
+on_ft=['html', 'css', 'php']
+on_event='InsertEnter'
 
-    [[plugins]]
-    repo='othree/html5.vim'
-    on_ft=['html']
-    on_event='InsertEnter'
+[[plugins]]
+repo='othree/html5.vim'
+on_ft=['html']
+on_event='InsertEnter'
 
-    #Nim Filetype設定
-    [[plugins]]
-    repo='zah/nim.vim'
-    on_ft=['nim']
+#Nim Filetype設定
+[[plugins]]
+repo='zah/nim.vim'
+on_ft=['nim']
 
-    #neosnippet
-    [[plugins]]
-    repo='Shougo/neosnippet'
-    hook_source='''
-    imap <C-k> <Plug>(neosnippet_expand_or_jump)
-    smap <C-k> <Plug>(neosnippet_expand_or_jump)
-    xmap <C-k> <Plug>(neosnippet_expand_target)
-    " if has('conceal')
-    "     set conceallevel=2 concealcursor=niv
-    " endif
-    " let g:neosnippet#enable_complete_done=1
-    '''
-    on_event='InsertEnter'
-    on_ft=['snippet']
-    depends=['neosnippet-snippets']
+#neosnippet
+[[plugins]]
+repo='Shougo/neosnippet'
+hook_source='''
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
+" if has('conceal')
+"     set conceallevel=2 concealcursor=niv
+" endif
+" let g:neosnippet#enable_complete_done=1
+'''
+on_event='InsertEnter'
+on_ft=['snippet']
+depends=['neosnippet-snippets']
 
-    # [[plugins]]
-    # repo='Shougo/neco-vim'
-    # on_event='InsertEnter'
-    # on_ft=['vim']
-    # depends=['deoplete.nvim']
+# [[plugins]]
+# repo='Shougo/neco-vim'
+# on_event='InsertEnter'
+# on_ft=['vim']
+# depends=['deoplete.nvim']
 
-    [[plugins]]
-    repo='cohama/lexima.vim'
-    hook_source="""
-    call lexima#add_rule({'char': '<C-]>', 'at': '\%#)', 'leave': 1})
-    call lexima#add_rule({'char': '<C-]>', 'at': '\%#"', 'leave': 1})
-    call lexima#add_rule({'char': '<C-]>', 'at': '\%#]', 'leave': 1})
-    call lexima#add_rule({'char': '<C-]>', 'at': '\%#}', 'leave': 1})
-    call lexima#add_rule({'char': '<C-]>', 'at': '\%#''', 'leave': 1})
-    call lexima#add_rule({'char': '<C-]>', 'at': '\%#>>>', 'leave': 3})
-    call lexima#add_rule({'char': '<C-]>', 'at': '\%#>', 'leave': 1})
-    call lexima#add_rule({'char': '<', 'at': '<<\%#', 'input_after': '>>>', 'filetype': 'cuda'})
-    call lexima#add_rule({'char': '>', 'at': '\%#>>>', 'leave': 3, 'filetype': 'cuda'})
-    call lexima#add_rule({'char': '<BS>', 'at': '<<<\%#>>>', 'input': '<BS><BS><BS>', 'delete': 3, 'filetype': 'cuda'})
-    call lexima#add_rule({'char': '%', 'at': '{\%#', 'input_after': '%'})
-    call lexima#add_rule({'char': '.', 'at': '{\%#', 'input_after': '.'})
-    """
+# [[plugins]]
+# repo='cohama/lexima.vim'
+# hook_source="""
+# call lexima#add_rule({'char': '<C-]>', 'at': '\%#)', 'leave': 1})
+# call lexima#add_rule({'char': '<C-]>', 'at': '\%#"', 'leave': 1})
+# call lexima#add_rule({'char': '<C-]>', 'at': '\%#]', 'leave': 1})
+# call lexima#add_rule({'char': '<C-]>', 'at': '\%#}', 'leave': 1})
+# call lexima#add_rule({'char': '<C-]>', 'at': '\%#''', 'leave': 1})
+# call lexima#add_rule({'char': '<C-]>', 'at': '\%#>>>', 'leave': 3})
+# call lexima#add_rule({'char': '<C-]>', 'at': '\%#>', 'leave': 1})
+# call lexima#add_rule({'char': '<', 'at': '<<\%#', 'input_after': '>>>', 'filetype': 'cuda'})
+# call lexima#add_rule({'char': '>', 'at': '\%#>>>', 'leave': 3, 'filetype': 'cuda'})
+# call lexima#add_rule({'char': '<BS>', 'at': '<<<\%#>>>', 'input': '<BS><BS><BS>', 'delete': 3, 'filetype': 'cuda'})
+# call lexima#add_rule({'char': '%', 'at': '{\%#', 'input_after': '%'})
+# call lexima#add_rule({'char': '.', 'at': '{\%#', 'input_after': '.'})
+# """
+#
+# on_event='InsertEnter'
 
-    on_event='InsertEnter'
+#html-script indent
+[[plugins]]
+repo='osyo-manga/vim-precious'
+on_ft=['html', 'toml']
 
-    #html-script indent
-    [[plugins]]
-    repo='osyo-manga/vim-precious'
-    on_ft=['html', 'toml']
+[[plugins]]
+repo='kana/vim-smartchr'
+hook_add='''
+inoremap <expr> , smartchr#loop(', ',',')
+augroup SmartChr
+    au FileType python,pyrex,lua,c,cpp,objc,objcpp,rust,java,typescript.tsx,typescript,typescriptreact,javascript,ruby,julia,kotlin,haskell,go,dart
+                \ inoremap <buffer><expr> < smartchr#one_of(' < ', ' << ', '<')
+    au FileType python,pyrex,c,cpp,objc,objcpp,java,lua,julia,kotlin,go,dart
+                \ inoremap <buffer><expr> > smartchr#one_of(' > ', ' >> ', '>')
+    au FileType haskell
+                \ inoremap <buffer><expr> > search('- \%#', 'bcn') ?
+                \ '<BS>> ' : smartchr#one_of(' > ', ' >> ', '>')
+    au FileType rust,javascript,typescript,ruby,typescript.tsx,typescriptreact,go,dart
+                \ inoremap <buffer><expr> > search('= \%#', 'bcn') ?
+                \ '<BS>> ' : smartchr#one_of(' > ', ' >> ', '>')
+    au FileType javascript,typescript,typescript.tsx,typescriptreact
+                \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\)\s\%#','bcn')?
+                \ '<BS>= ': search('!\%#', 'bcn')?
+                \ '<BS> != ': search('!=\+ \%#', 'bcn')?
+                \ '<BS>= ': smartchr#loop(' = ', ' == ', ' === ', '=')
+    au FileType python,pyrex,lua,c,cpp,cuda,objc,objcpp,rust,java,nim,toml,ruby,julia,kotlin,haskell,dart
+                \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\\|/\\|*\)\s\%#','bcn')?
+                \ '<BS>= ': search('.*!\%#', 'bcn')?
+                \ '<BS> != ': smartchr#one_of(' = ', ' == ', '=')
+    au FileType python,pyrex,lua,ruby
+                \ inoremap <buffer><expr> + smartchr#one_of(' + ', '+')
+    au FileType python,pyrex,lua,ruby
+                \ inoremap <buffer><expr> - smartchr#one_of(' - ', '-')
+    au FileType python,pyrex,lua,javascript,nim
+                \ inoremap <buffer><expr> / smartchr#one_of(' / ', ' // ', '/')
+    au FileType python,pyrex,ruby,haskell
+                \ inoremap <buffer><expr> * smartchr#one_of(' * ', ' ** ', '*')
+    au FileType python,pyrex
+                \ inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
+    au FileType lua
+                \ inoremap <buffer><expr> ^ smartchr#loop(' ^ ', '^')
+    au FileType haskell
+                \ inoremap <buffer><expr> + smartchr#one_of(' + ', ' ++ ', '+')
+    au FileType javascript,c,cpp,cuda,objc,objcpp,rust,java,nim,typescript,javascript,julia,kotlin,typescript.tsx,typescriptreact,go,dart
+                \ inoremap <buffer><expr> + smartchr#one_of(' + ', '++', '+')
+    au FileType javascript,c,cpp,cuda,objc,objcpp,java,nim,typescript,javascript,julia,kotlin,typescript.tsx,typescriptreact,dart
+                \ inoremap <buffer><expr> - smartchr#one_of(' - ', '--', '-')
+    au FileType rust,haskell,go
+                \ inoremap <buffer><expr> - search('< \%#', 'bcn') ?
+                \ '<BS>- ' : smartchr#one_of(' - ', '--', '-')
+    au FileType c,cuda,objc,java
+                \ inoremap <buffer><expr> & smartchr#one_of('&', ' && ', ' & ', '&=')
+    au FileType c,cpp,cuda,python,pyrex,rust,java,julia
+                \ inoremap <buffer><expr> . smartchr#one_of('.','->','..')
+    au FileType php
+                \ inoremap <buffer><expr> ? search('<\%#', 'bcn') ?
+                \ '??><LEFT><LEFT>' : '?'
+    au FileType nim
+                \ inoremap <buffer><expr> > search('\(=\\|-\) \%#', 'bcn') ?
+                \ '<BS>> ' : smartchr#one_of(' > ', ' >> ', '>')
+    au FileType nim
+                \ inoremap <buffer><expr> < search('\.\%#', 'bcn') ?
+                \ '<' : smartchr#one_of(' < ', ' << ', '<')
+    au FileType haskell inoremap <buffer><expr> / smartchr#one_of(' / ', '/')
+    au FileType haskell
+                \ inoremap <buffer><expr> = search('/ \%#', 'bcn') ?
+                \ '<BS>= ' : smartchr#one_of(' = ', ' == ', '=')
+    au FileType go
+                \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\)\s\%#','bcn')?
+                \ '<BS>= ': search('.*!\%#', 'bcn')?
+                \ '<BS> != ': search('.*:\%#', 'bcn')?
+                \ '<BS> := ': smartchr#one_of(' = ', ' == ', '=')
+augroup END
 
-    [[plugins]]
-    repo='kana/vim-smartchr'
-    hook_add='''
-    inoremap <expr> , smartchr#loop(', ',',')
-    augroup SmartChr
-        au FileType python,pyrex,lua,c,cpp,objc,objcpp,rust,java,typescript.tsx,typescript,typescriptreact,javascript,ruby,julia,kotlin,haskell,go,dart
-                    \ inoremap <buffer><expr> < smartchr#one_of(' < ', ' << ', '<')
-        au FileType python,pyrex,c,cpp,objc,objcpp,java,lua,julia,kotlin,go,dart
-                    \ inoremap <buffer><expr> > smartchr#one_of(' > ', ' >> ', '>')
-        au FileType haskell
-                    \ inoremap <buffer><expr> > search('- \%#', 'bcn') ?
-                    \ '<BS>> ' : smartchr#one_of(' > ', ' >> ', '>')
-        au FileType rust,javascript,typescript,ruby,typescript.tsx,typescriptreact,go,dart
-                    \ inoremap <buffer><expr> > search('= \%#', 'bcn') ?
-                    \ '<BS>> ' : smartchr#one_of(' > ', ' >> ', '>')
-        au FileType javascript,typescript,typescript.tsx,typescriptreact
-                    \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\)\s\%#','bcn')?
-                    \ '<BS>= ': search('!\%#', 'bcn')?
-                    \ '<BS> != ': search('!=\+ \%#', 'bcn')?
-                    \ '<BS>= ': smartchr#loop(' = ', ' == ', ' === ', '=')
-        au FileType python,pyrex,lua,c,cpp,cuda,objc,objcpp,rust,java,nim,toml,ruby,julia,kotlin,haskell,dart
-                    \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\\|/\\|*\)\s\%#','bcn')?
-                    \ '<BS>= ': search('.*!\%#', 'bcn')?
-                    \ '<BS> != ': smartchr#one_of(' = ', ' == ', '=')
-        au FileType python,pyrex,lua,ruby
-                    \ inoremap <buffer><expr> + smartchr#one_of(' + ', '+')
-        au FileType python,pyrex,lua,ruby
-                    \ inoremap <buffer><expr> - smartchr#one_of(' - ', '-')
-        au FileType python,pyrex,lua,javascript,nim
-                    \ inoremap <buffer><expr> / smartchr#one_of(' / ', ' // ', '/')
-        au FileType python,pyrex,ruby,haskell
-                    \ inoremap <buffer><expr> * smartchr#one_of(' * ', ' ** ', '*')
-        au FileType python,pyrex
-                    \ inoremap <buffer><expr> & smartchr#one_of(' & ', ' && ', '&')
-        au FileType lua
-                    \ inoremap <buffer><expr> ^ smartchr#loop(' ^ ', '^')
-        au FileType haskell
-                    \ inoremap <buffer><expr> + smartchr#one_of(' + ', ' ++ ', '+')
-        au FileType javascript,c,cpp,cuda,objc,objcpp,rust,java,nim,typescript,javascript,julia,kotlin,typescript.tsx,typescriptreact,go,dart
-                    \ inoremap <buffer><expr> + smartchr#one_of(' + ', '++', '+')
-        au FileType javascript,c,cpp,cuda,objc,objcpp,java,nim,typescript,javascript,julia,kotlin,typescript.tsx,typescriptreact,dart
-                    \ inoremap <buffer><expr> - smartchr#one_of(' - ', '--', '-')
-        au FileType rust,haskell,go
-                    \ inoremap <buffer><expr> - search('< \%#', 'bcn') ?
-                    \ '<BS>- ' : smartchr#one_of(' - ', '--', '-')
-        au FileType c,cuda,objc,java
-                    \ inoremap <buffer><expr> & smartchr#one_of('&', ' && ', ' & ', '&=')
-        au FileType c,cpp,cuda,python,pyrex,rust,java,julia
-                    \ inoremap <buffer><expr> . smartchr#one_of('.','->','..')
-        au FileType php
-                    \ inoremap <buffer><expr> ? search('<\%#', 'bcn') ?
-                    \ '??><LEFT><LEFT>' : '?'
-        au FileType nim
-                    \ inoremap <buffer><expr> > search('\(=\\|-\) \%#', 'bcn') ?
-                    \ '<BS>> ' : smartchr#one_of(' > ', ' >> ', '>')
-        au FileType nim
-                    \ inoremap <buffer><expr> < search('\.\%#', 'bcn') ?
-                    \ '<' : smartchr#one_of(' < ', ' << ', '<')
-        au FileType haskell inoremap <buffer><expr> / smartchr#one_of(' / ', '/')
-        au FileType haskell
-                    \ inoremap <buffer><expr> = search('/ \%#', 'bcn') ?
-                    \ '<BS>= ' : smartchr#one_of(' = ', ' == ', '=')
-        au FileType go
-                    \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\)\s\%#','bcn')?
-                    \ '<BS>= ': search('.*!\%#', 'bcn')?
-                    \ '<BS> != ': search('.*:\%#', 'bcn')?
-                    \ '<BS> := ': smartchr#one_of(' = ', ' == ', '=')
-    augroup END
+inoremap <buffer><expr> <BS> search('<\%#>','bcn')? '<BS><DEL>': '<BS>'
+inoremap <C-l> <><LEFT>
+'''
+on_event='InsertEnter'
 
-    inoremap <buffer><expr> <BS> search('<\%#>','bcn')? '<BS><DEL>': '<BS>'
-    inoremap <C-l> <><LEFT>
-    '''
-    on_event='InsertEnter'
+# [[plugins]]
+# repo='zchee/deoplete-zsh'
+# on_ft=['zsh']
+# on_event='InsertEnter'
+# depends=['deoplete.nvim']
+#
+# [[plugins]]
+# repo='fishbullet/deoplete-ruby'
+# on_event='InsertEnter'
+# on_ft=['ruby']
+# depends=['deoplete.nvim']
+#
+# [[plugins]]
+# repo='zchee/deoplete-go'
+# on_event='InsertEnter'
+# on_ft=['go']
+# depends=['deoplete.nvim']
 
-    # [[plugins]]
-    # repo='zchee/deoplete-zsh'
-    # on_ft=['zsh']
-    # on_event='InsertEnter'
-    # depends=['deoplete.nvim']
-    #
-    # [[plugins]]
-    # repo='fishbullet/deoplete-ruby'
-    # on_event='InsertEnter'
-    # on_ft=['ruby']
-    # depends=['deoplete.nvim']
-    #
-    # [[plugins]]
-    # repo='zchee/deoplete-go'
-    # on_event='InsertEnter'
-    # on_ft=['go']
-    # depends=['deoplete.nvim']
+#tomlファイルの構文予測
+[[plugins]]
+repo='cespare/vim-toml'
+on_ft='toml'
 
-    #tomlファイルの構文予測
-    [[plugins]]
-    repo='cespare/vim-toml'
-    on_ft='toml'
+# typescript
+[[plugins]]
+repo='HerringtonDarkholme/yats.vim'
+on_ft=['typescript', 'typescriptreact']
 
-    # typescript
-    [[plugins]]
-    repo='HerringtonDarkholme/yats.vim'
-    on_ft=['typescript', 'typescriptreact']
+# GLSL
+[[plugins]]
+repo='tikhomirov/vim-glsl'
+on_ft='glsl'
 
-    # GLSL
-    [[plugins]]
-    repo='tikhomirov/vim-glsl'
-    on_ft='glsl'
+# dart
+[[plugins]]
+repo='dart-lang/dart-vim-plugin'
+on_ft='dart'
 
-    # dart
-    [[plugins]]
-    repo='dart-lang/dart-vim-plugin'
-    on_ft='dart'
+# flutter
+[[plugins]]
+repo='thosakwe/vim-flutter'
+on_ft='dart'
 
-    # flutter
-    [[plugins]]
-    repo='thosakwe/vim-flutter'
-    on_ft='dart'
-
-    # [[plugins]]
-    # repo='kovisoft/slimv'
-    # on_ft='lisp'
-    # hook_add='''
-    # let g:slimv_swank_cmd='!gnome-terminal -- ros run --load $HOME/.roswell/lisp/slime/2019.12.27/start-swank.lisp'
-    # '''
-    #
+# [[plugins]]
+# repo='kovisoft/slimv'
+# on_ft='lisp'
+# hook_add='''
+# let g:slimv_swank_cmd='!gnome-terminal -- ros run --load $HOME/.roswell/lisp/slime/2019.12.27/start-swank.lisp'
+# '''
+#

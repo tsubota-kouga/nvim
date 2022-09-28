@@ -18,7 +18,7 @@
     set smartindent
     set shiftwidth=4
     set incsearch
-    set ignorecase
+    set noignorecase
     set hlsearch
     nnoremap <silent><Esc><Esc> : <C-u> set nohlsearch!<CR>
     set title
