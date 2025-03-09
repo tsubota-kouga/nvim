@@ -85,9 +85,9 @@ depends=['neosnippet-snippets']
 # on_event='InsertEnter'
 
 #html-script indent
-[[plugins]]
-repo='osyo-manga/vim-precious'
-on_ft=['html', 'toml']
+# [[plugins]]
+# repo='osyo-manga/vim-precious'
+# on_ft=['html', 'toml']
 
 [[plugins]]
 repo='kana/vim-smartchr'
@@ -101,10 +101,10 @@ augroup SmartChr
     au FileType haskell
                 \ inoremap <buffer><expr> > search('- \%#', 'bcn') ?
                 \ '<BS>> ' : smartchr#one_of(' > ', ' >> ', '>')
-    au FileType rust,javascript,typescript,ruby,typescript.tsx,typescriptreact,go,dart
+    au FileType rust,javascript,typescript,ruby,typescript.tsx,typescriptreact,go,dart,vue
                 \ inoremap <buffer><expr> > search('= \%#', 'bcn') ?
                 \ '<BS>> ' : smartchr#one_of(' > ', ' >> ', '>')
-    au FileType javascript,typescript,typescript.tsx,typescriptreact
+    au FileType javascript,typescript,typescript.tsx,typescriptreact,vue
                 \ inoremap <buffer><expr> = search('.*\(+\\|-\\|<\\|>\)\s\%#','bcn')?
                 \ '<BS>= ': search('!\%#', 'bcn')?
                 \ '<BS> != ': search('!=\+ \%#', 'bcn')?
@@ -127,9 +127,9 @@ augroup SmartChr
                 \ inoremap <buffer><expr> ^ smartchr#loop(' ^ ', '^')
     au FileType haskell
                 \ inoremap <buffer><expr> + smartchr#one_of(' + ', ' ++ ', '+')
-    au FileType javascript,c,cpp,cuda,objc,objcpp,rust,java,nim,typescript,javascript,julia,kotlin,typescript.tsx,typescriptreact,go,dart
+    au FileType javascript,c,cpp,cuda,objc,objcpp,rust,java,nim,typescript,javascript,julia,kotlin,typescript.tsx,typescriptreact,go,dart,vue
                 \ inoremap <buffer><expr> + smartchr#one_of(' + ', '++', '+')
-    au FileType javascript,c,cpp,cuda,objc,objcpp,java,nim,typescript,javascript,julia,kotlin,typescript.tsx,typescriptreact,dart
+    au FileType javascript,c,cpp,cuda,objc,objcpp,java,nim,typescript,javascript,julia,kotlin,typescript.tsx,typescriptreact,dart,vue
                 \ inoremap <buffer><expr> - smartchr#one_of(' - ', '--', '-')
     au FileType rust,haskell,go
                 \ inoremap <buffer><expr> - search('< \%#', 'bcn') ?

@@ -34,24 +34,20 @@
     nnoremap <up> gk
     set backspace=indent,eol,start
     set showmatch
-    source $VIMRUNTIME/macros/matchit.vim
     set wildmenu
     set history=5000
     set laststatus=2
     set showmode
     set ruler
     set showcmd
-    " set foldmethod=indent
     set nofoldenable
     set nomodeline
     set mouse=a
     set clipboard=unnamedplus
     set directory=/tmp/vim/swapfile/
     set swapfile
-    " set backupdir=/tmp/vim/backup/
     set nobackup
     set guifont='JetBrainsMono\ Nerd\ Font\ Regular\ 11'
-    set guioptions+=m
 
     filetype on
     let g:filetype_m='objc'

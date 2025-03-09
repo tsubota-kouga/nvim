@@ -11,9 +11,12 @@
             ]
         }
     },
+    "python.formatting.provider": "black",
+    "python.formatting.blackPath": "black",
     "explorer.position": "floating",
     "explorer.width": 30,
     "explorer.icon.enableNerdfont": true,
+    "explorer.trash.command": "trash-put %s",
     "explorer.keyMappingMode": "none",
     "explorer.keyMappings.global": {
         "e": "open",
@@ -93,6 +96,6 @@
         "default": "\uf29c"
     },
     "cSpell.userWords": [
-      "neovim"
+        "neovim"
     ]
 }
